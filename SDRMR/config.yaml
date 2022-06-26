@@ -12,7 +12,7 @@ init: false
 map: 
   - config:rw 
   - ssl
-url: https://github.com/cpyarger/Home-Assistant-Addons/tree/master/SDRMR
+url: https://github.com/pasyn/Home-Assistant-Addons/tree/pasyn-testing/SDRMR
 usb: true
 host_network: False
 arch: 
