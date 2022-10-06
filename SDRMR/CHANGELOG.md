@@ -2,6 +2,13 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [0.8.TBD] - TBD
+### Changes
+ - Added muliplier option for each utility type
+ - Removed gas divisor due to redundancy
+ - Removed water tenths option due to redundancy
+ - Breaking! - Multipliers must be set if previously using gas divisors or water tenths
+
 ## [0.8.31] - 2022-06-1
 ### Changes
  - Fixed recognition for gas meter of type 12
