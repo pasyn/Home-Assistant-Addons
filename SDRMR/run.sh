@@ -88,6 +88,7 @@ function scmplus_parse {
 # Function, parses R900 data
 function r900_parse {
   STATE="$(echo $line | jq -rc '.Message.Consumption' | tr -s ' ' '_')"
+  STATE=$(bc <<< "$STATE*$WMP")
   LEAK="$(echo $line | jq -rc '.Message.Leak' | tr -s ' ' '_')"
   LEAKNOW="$(echo $line | jq -rc '.Message.LeakNow' | tr -s ' ' '_')"
   BACKFLOW="$(echo $line | jq -rc '.Message.BackFlow' | tr -s ' ' '_')"
