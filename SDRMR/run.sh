@@ -64,9 +64,8 @@ function is_water() {
 # Function, parses scm and scmplus data
 function scmplus_parse {
   STATE="$(echo $line | jq -rc '.Message.Consumption' | tr -s ' ' '_')"
-
-  FIXED_STATE=$(($STATE/$SCMPGD))
   EPT="$(echo $line | jq -rc '.Message.EndpointType' | tr -s ' ' '_')"
+  
   if [[ $EPT =~ "null" ]]; then
     EPT="$(echo $line | jq -rc '.Message.Type' | tr -s ' ' '_')"
   fi
