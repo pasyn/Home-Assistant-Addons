@@ -78,7 +78,7 @@ function scmplus_parse {
     RESTDATA=$( jq -nrc --arg state "$STATE" --arg uid "$scmUID" --arg uom "$EUOM" '{"state": $state, "attributes": {"unique_id": $uid, "device_class": "energy", "unit_of_measurement": $uom, "state_class": "total_increasing" }}')
   elif is_water $EPT; then
     STATE=$(bc <<< "$STATE*$WMP")
-    RESTDATA=$( jq -nrc --arg state "$STATE" --arg uid "$scmUID" --arg uom "$WUOM" '{"state": $state, "attributes": {"unique_id": $uid, "device_class": "water", "unit_of_measurement": $uom, "state_class":"total_increasing" }}')
+    RESTDATA=$( jq -nrc --arg state "$STATE" --arg uid "$scmUID" --arg uom "$WUOM" '{"state": $state, "attributes": {"unique_id": $uid, "device_class": "water", "unit_of_measurement": $uom, "state_class": "total_increasing" }}')
   else
     RESTDATA=$( jq -nrc --arg state "$STATE" --arg uid "$scmUID" '{"state": $state, "attributes": {"unique_id": $uid}}')
   fi
@@ -103,7 +103,7 @@ function r900_parse {
   --arg unkn1 "$UNKN1" \
   --arg unkn3 "$UNKN3" \
   --arg nouse "$NOUSE" \
-  '{"state": $st, "extra_state_attributes": {"unique_id": $uid}, "attributes": { "entity_id": $uid, "state_class": "total_increasing", "unit_of_measurement": "gal", "leak": $le, "leak_now": $ln, "BackFlow": $bf, "NoUse": $nouse, "Unknown1": $unkn1, "Unknown3": $unkn3 }}')
+  '{"state": $st, "extra_state_attributes": {"unique_id": $uid}, "attributes": { "entity_id": $uid, "device_class": "water", "unit_of_measurement": "gal", "state_class": "total_increasing", "leak": $le, "leak_now": $ln, "BackFlow": $bf, "NoUse": $nouse, "Unknown1": $unkn1, "Unknown3": $unkn3 }}')
 }
 
 # Function, posts data to home assistant that is gathered by the rtlamr script
