@@ -5,7 +5,7 @@
 
 # IMPORTANT: The container needs privileged access to /dev/bus/usb on the host.
 
-ARG BUILD_FROM=ghcr.io/home-assistant/amd64-addon-base:3.19
+ARG BUILD_FROM
 FROM $BUILD_FROM
 
 ENV LANG C.UTF-8
