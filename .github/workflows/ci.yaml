@@ -18,11 +18,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
-      - name: Validate add-on configuration
-        uses: frenck/action-addon-lint@v1
+        uses: actions/checkout@v3
+      - name:  Run Home Assistant Add-on Lint
+        uses: frenck/action-addon-lint@v2
         with:
-          path: .
+          path: "./SDRMR"
 
   shellcheck:
     name: Shell lint
