@@ -64,12 +64,6 @@ jobs:
             ${{ runner.os }}-buildx-${{ matrix.arch }}-
             ${{ runner.os }}-buildx-
 
-      - name: Build add-on
-        uses: home-assistant/actions/addon-builder@v1
-        with:
-          addon: ${{ env.ADDON_PATH }}
-          arch: ${{ matrix.arch }}
-
       - name: Persist Docker layer cache
         if: always()
         run: |
