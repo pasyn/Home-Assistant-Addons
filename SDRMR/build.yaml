@@ -1,4 +1,4 @@
 build_from:
-  aarch64: ghcr.io/home-assistant/aarch64-addon-base:3.19
-  amd64: ghcr.io/home-assistant/amd64-addon-base:3.19
-  armv7: ghcr.io/home-assistant/armv7-addon-base:3.19
+  aarch64: docker.io/homeassistant/aarch64-base:3.19
+  amd64: docker.io/homeassistant/amd64-base:3.19
+  armv7: docker.io/homeassistant/armv7-base:3.19
