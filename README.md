@@ -6,5 +6,5 @@ Repository for Hass.io add-ons.
 
 ## Included add-ons
 
-- [SDRMR](https://github.com/cpyarger/Home-Assistant-Addons/tree/main/SDRMR) – A Hass.io add-on for a software defined radio tuned to listen for utility meter RF transmissions and republish the data via Home Assistant's API.
+- [SDRMR](https://github.com/pasyn/Home-Assistant-Addons/tree/main/SDRMR) – A Hass.io add-on for a software defined radio tuned to listen for utility meter RF transmissions and republish the data via Home Assistant's API.
 
