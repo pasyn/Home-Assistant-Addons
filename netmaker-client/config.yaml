@@ -1,0 +1,41 @@
+---
+name: Netmaker Client
+version: 0.1.0
+slug: netmaker_client
+description: Connect Home Assistant to a Netmaker virtual network using the official netclient daemon
+url: https://github.com/pasyn/Home-Assistant-Addons/tree/main/netmaker-client
+startup: services
+init: false
+arch:
+  - aarch64
+  - amd64
+  - armv7
+host_network: true
+privileged:
+  - NET_ADMIN
+devices:
+  - /dev/net/tun
+map:
+  - config:rw
+options:
+  server_url: ""
+  enrollment_token: ""
+  enrollment_key: ""
+  network_id: ""
+  log_level: info
+  post_up: ""
+  post_down: ""
+  auto_reconnect: true
+  reconnect_interval: 30
+  leave_on_stop: false
+schema:
+  server_url: str
+  enrollment_token: str?
+  enrollment_key: str?
+  network_id: str
+  log_level: list(trace|debug|info|warn|error)
+  post_up: str?
+  post_down: str?
+  auto_reconnect: bool
+  reconnect_interval: int
+  leave_on_stop: bool
