@@ -1,0 +1,6 @@
+build_from:
+  aarch64: ghcr.io/home-assistant/aarch64-addon-base:latest
+  amd64: ghcr.io/home-assistant/amd64-addon-base:latest
+  armv7: ghcr.io/home-assistant/armv7-addon-base:latest
+args:
+  NETCLIENT_VERSION: v0.24.2
