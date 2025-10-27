@@ -26,8 +26,18 @@ RUN set -eux; \
             NETCLIENT_URL="${BASE_URL}/netclient-${SUFFIX}${EXT}"; \
             if curl -fsSL "${NETCLIENT_URL}" -o /tmp/netclient${EXT}; then \
                 if [ "${EXT}" = ".tar.gz" ]; then \
-                    tar -xzf /tmp/netclient${EXT} -C /usr/local/bin netclient; \
+                    EXTRACT_DIR="/tmp/netclient-extract"; \
+                    rm -rf "${EXTRACT_DIR}"; \
+                    mkdir -p "${EXTRACT_DIR}"; \
+                    tar -xzf /tmp/netclient${EXT} -C "${EXTRACT_DIR}"; \
                     rm -f /tmp/netclient${EXT}; \
+                    NETCLIENT_BINARY=$(find "${EXTRACT_DIR}" -type f -name 'netclient*' | head -n 1); \
+                    if [ -z "${NETCLIENT_BINARY}" ]; then \
+                        rm -rf "${EXTRACT_DIR}"; \
+                        continue; \
+                    fi; \
+                    mv "${NETCLIENT_BINARY}" /usr/local/bin/netclient; \
+                    rm -rf "${EXTRACT_DIR}"; \
                 else \
                     mv /tmp/netclient /usr/local/bin/netclient; \
                 fi; \
