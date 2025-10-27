@@ -163,28 +163,33 @@ leave_network() {
 }
 
 joined_now=0
+membership_active=0
 if (( rejoin_required == 1 )); then
     if [[ -n "${previous_signature}" ]]; then
         leave_network
     fi
     join_network
     joined_now=1
+    membership_active=1
 else
     if ! check_membership; then
         join_network
         joined_now=1
+        membership_active=1
     else
         bashio::log.info "Existing Netmaker membership detected for ${network_id}."
+        membership_active=1
     fi
 fi
 
 if (( joined_now == 1 )); then
     printf '%s' "${signature}" > "${STATE_FILE}"
-    if [[ -n "${post_up_cmd}" ]]; then
-        bashio::log.info "Running post-up hook"
-        if ! bash -c "${post_up_cmd}"; then
-            bashio::log.warning "Post-up hook failed"
-        fi
+fi
+
+if (( membership_active == 1 )) && [[ -n "${post_up_cmd}" ]]; then
+    bashio::log.info "Running post-up hook"
+    if ! bash -c "${post_up_cmd}"; then
+        bashio::log.warning "Post-up hook failed"
     fi
 fi
 
