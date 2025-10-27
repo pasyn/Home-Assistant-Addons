@@ -19,7 +19,7 @@ RUN set -eux; \
         "linux/arm/v7") NETCLIENT_ARCH="armv7" ;; \
         *) echo "Unsupported architecture: ${TARGETPLATFORM}" >&2; exit 1 ;; \
     esac; \
-    BASE_URL="https://github.com/gravitl/netmaker/releases/download/${NETCLIENT_VERSION}"; \
+    BASE_URL="https://github.com/gravitl/netclient/releases/download/${NETCLIENT_VERSION}"; \
     FOUND=0; \
     for SUFFIX in "linux-${NETCLIENT_ARCH}" "${NETCLIENT_ARCH}"; do \
         for EXT in "" ".tar.gz"; do \
