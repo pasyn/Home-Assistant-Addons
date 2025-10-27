@@ -1,9 +1,9 @@
 ---
-name: Netmaker Netclient
+name: Netmaker Client
 version: 0.1.0
-slug: netmaker_netclient
+slug: netmaker_client
 description: Connect Home Assistant to a Netmaker virtual network using the official netclient daemon
-url: https://github.com/pasyn/Home-Assistant-Addons/tree/main/netmaker-netclient
+url: https://github.com/pasyn/Home-Assistant-Addons/tree/main/netmaker-client
 startup: services
 init: false
 arch:

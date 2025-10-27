@@ -23,7 +23,7 @@ cleanup() {
     running=0
 
     if [[ ${daemon_pid} -ne 0 ]] && kill -0 "${daemon_pid}" 2>/dev/null; then
-        bashio::log.info "Stopping Netmaker netclient daemon (PID ${daemon_pid})"
+        bashio::log.info "Stopping Netmaker client daemon (PID ${daemon_pid})"
         kill "${daemon_pid}" 2>/dev/null || true
         wait "${daemon_pid}" 2>/dev/null || true
     fi
@@ -46,7 +46,7 @@ cleanup() {
 trap cleanup EXIT
 trap 'running=0; exit 0' SIGTERM SIGINT
 
-bashio::log.info "Starting Netmaker netclient add-on"
+bashio::log.info "Starting Netmaker client add-on"
 
 mkdir -p "${CONFIG_DIR}"
 if [[ ! -L /etc/netclient ]]; then
@@ -215,4 +215,4 @@ else
     wait "${daemon_pid}"
 fi
 
-bashio::log.info "Netmaker netclient add-on stopped"
+bashio::log.info "Netmaker client add-on stopped"

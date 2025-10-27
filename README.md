@@ -7,5 +7,5 @@ Repository for Hass.io add-ons.
 ## Included add-ons
 
 - [SDRMR](https://github.com/pasyn/Home-Assistant-Addons/tree/main/SDRMR) – A Hass.io add-on for a software defined radio tuned to listen for utility meter RF transmissions and republish the data via Home Assistant's API.
-- [Netmaker Netclient](https://github.com/pasyn/Home-Assistant-Addons/tree/main/netmaker-netclient) – Connects Home Assistant to a Netmaker-managed WireGuard network using the official Netmaker client.
+- [Netmaker Client](https://github.com/pasyn/Home-Assistant-Addons/tree/main/netmaker-client) – Connects Home Assistant to a Netmaker-managed WireGuard network using the official Netmaker client.
 

@@ -1,6 +1,6 @@
-# Netmaker Netclient Home Assistant Add-on
+# Netmaker Client Home Assistant Add-on
 
-The Netmaker Netclient add-on connects your Home Assistant host to a Netmaker-managed WireGuard® network. The add-on bundles the official `netclient` daemon so that the Home Assistant supervisor can automatically join, monitor, and reconnect to your virtual network.
+The Netmaker Client add-on connects your Home Assistant host to a Netmaker-managed WireGuard® network. The add-on bundles the official `netclient` daemon so that the Home Assistant supervisor can automatically join, monitor, and reconnect to your virtual network.
 
 ## Features
 
@@ -19,7 +19,7 @@ The Netmaker Netclient add-on connects your Home Assistant host to a Netmaker-ma
 ## Installation
 
 1. Add this repository to your Home Assistant supervisor: **Settings → Add-ons → Add-on Store → ⋮ → Repositories** and paste `https://github.com/pasyn/Home-Assistant-Addons`.
-2. Locate **Netmaker Netclient** in the add-on store and click **Install**.
+2. Locate **Netmaker Client** in the add-on store and click **Install**.
 3. Open the add-on configuration tab and supply the required Netmaker settings (described below).
 4. Start the add-on. The supervisor logs will display join progress and any connection errors.
 
