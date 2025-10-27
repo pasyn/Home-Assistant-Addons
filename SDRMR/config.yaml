@@ -10,7 +10,7 @@ init: false
 map: 
   - config:rw 
   - ssl
-url: https://github.com/pasyn/Home-Assistant-Addons/tree/master/SDRMR
+url: https://github.com/pasyn/Home-Assistant-Addons/tree/main/SDRMR
 usb: true
 arch: 
   - aarch64
