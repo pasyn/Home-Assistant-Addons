@@ -7,7 +7,6 @@ PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
 
 # Parse the variables
 DEBUG=$(bashio::config 'debug')
-RTLTCPDEBUG=$(bashio::config 'rtltcpdebug')
 
 AMR_MSGTYPE=$(bashio::config 'msgType')
 AMR_IDS=$(bashio::config 'ids')
