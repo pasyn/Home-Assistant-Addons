@@ -2,8 +2,15 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [0.8.TBD] - TBD
+## [0.9.0] - 2026-03-12
 ### Changes
+ - Updated base images to 2026.02.0 (Alpine 3.21)
+ - Removed armv7 architecture support (deprecated by Home Assistant)
+ - Added startup: application to config.yaml for proper addon lifecycle
+ - Modernized run.sh to use bashio::config and bashio::log functions
+ - Fixed r900_parse to respect water unit of measurement and multiplier settings
+ - Fixed r900_parse attributes structure (removed incorrect extra_state_attributes/entity_id fields)
+ - Removed unused mosquitto-clients and wget packages from Dockerfile
  - Added muliplier option for each utility type
  - Removed gas divisor due to redundancy
  - Removed water tenths option due to redundancy

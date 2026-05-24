@@ -5,52 +5,49 @@ export LD_LIBRARY_PATH=/usr/local/lib64
 export LANG=C
 PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin"
 
-CONFIG_PATH=/data/options.json
-
 # Parse the variables
-DEBUG="$(jq --raw-output '.debug' "$CONFIG_PATH")"
-RTLTCPDEBUG="$(jq --raw-output '.rtltcpdebug' "$CONFIG_PATH")"
+DEBUG=$(bashio::config 'debug')
 
-AMR_MSGTYPE="$(jq --raw-output '.msgType' "$CONFIG_PATH")"
-AMR_IDS="$(jq --raw-output '.ids' "$CONFIG_PATH")"
-DURATION="$(jq --raw-output '.duration' "$CONFIG_PATH")"
-PT="$(jq --raw-output '.pause_time' "$CONFIG_PATH")"
-GUOM="$(jq --raw-output '.gas_unit_of_measurement' "$CONFIG_PATH")"
-EUOM="$(jq --raw-output '.electric_unit_of_measurement' "$CONFIG_PATH")"
-WUOM="$(jq --raw-output '.water_unit_of_measurement' "$CONFIG_PATH")"
+AMR_MSGTYPE=$(bashio::config 'msgType')
+AMR_IDS=$(bashio::config 'ids')
+DURATION=$(bashio::config 'duration')
+PT=$(bashio::config 'pause_time')
+GUOM=$(bashio::config 'gas_unit_of_measurement')
+EUOM=$(bashio::config 'electric_unit_of_measurement')
+WUOM=$(bashio::config 'water_unit_of_measurement')
 
-GMP="$(jq --raw-output '.gas_multiplier' "$CONFIG_PATH")"
-EMP="$(jq --raw-output '.electric_multiplier' "$CONFIG_PATH")"
-WMP="$(jq --raw-output '.water_multiplier' "$CONFIG_PATH")"
+GMP=$(bashio::config 'gas_multiplier')
+EMP=$(bashio::config 'electric_multiplier')
+WMP=$(bashio::config 'water_multiplier')
 
-if [[ -z "$AMR_MSGTYPE" || "$AMR_MSGTYPE" == "null" ]]; then
+if bashio::var.is_empty "${AMR_MSGTYPE}" || [[ "${AMR_MSGTYPE}" == "null" ]]; then
   AMR_MSGTYPE="scm"
 fi
 
-if [[ -z "$DURATION" || "$DURATION" == "null" ]]; then
+if bashio::var.is_empty "${DURATION}" || [[ "${DURATION}" == "null" ]]; then
   DURATION="0"
 fi
 
-if [[ -z "$PT" || "$PT" == "null" ]]; then
+if bashio::var.is_empty "${PT}" || [[ "${PT}" == "null" ]]; then
   PT="30"
 fi
 
 # Print the set variables to the log
-echo "Starting RTLAMR with parameters:"
-echo "AMR Message Type = $AMR_MSGTYPE"
-echo "AMR Device IDs = $AMR_IDS"
-echo "Time Between Readings = $PT"
-echo "Duration = $DURATION"
-echo "Electric Unit of measurement = $EUOM"
-echo "Gas Unit of measurement = $GUOM"
-echo "Water Unit of measurement = $WUOM"
-echo "Gas Multiplier = $GMP"
-echo "Electric Multiplier = $EMP"
-echo "Water Multiplier = $WMP"
-echo "Debug is $DEBUG"
+bashio::log.info "Starting RTLAMR with parameters:"
+bashio::log.info "AMR Message Type = ${AMR_MSGTYPE}"
+bashio::log.info "AMR Device IDs = ${AMR_IDS}"
+bashio::log.info "Time Between Readings = ${PT}"
+bashio::log.info "Duration = ${DURATION}"
+bashio::log.info "Electric Unit of measurement = ${EUOM}"
+bashio::log.info "Gas Unit of measurement = ${GUOM}"
+bashio::log.info "Water Unit of measurement = ${WUOM}"
+bashio::log.info "Gas Multiplier = ${GMP}"
+bashio::log.info "Electric Multiplier = ${EMP}"
+bashio::log.info "Water Multiplier = ${WMP}"
+bashio::log.info "Debug is ${DEBUG}"
 
 # Starts the RTL_TCP Application
-if [[ "$RTLTCPDEBUG" == "true" ]]; then
+if bashio::config.true 'rtltcpdebug'; then
   /usr/local/bin/rtl_tcp &
 else
   /usr/local/bin/rtl_tcp > /dev/null &
@@ -58,6 +55,7 @@ fi
 
 # Sleep to fill buffer a bit
 sleep 5
+
 function is_gas() {
     local value=$1
     local list=(0 1 2 9 12 156 188)
@@ -162,7 +160,8 @@ r900_parse() {
     --arg unkn1 "$unknown1" \
     --arg unkn3 "$unknown3" \
     --arg nouse "$no_use" \
-    '{"state": $st, "extra_state_attributes": {"unique_id": $uid}, "attributes": {"entity_id": $uid, "device_class": "water", "unit_of_measurement": "gal", "state_class": "total_increasing", "leak": $le, "leak_now": $ln, "BackFlow": $bf, "NoUse": $nouse, "Unknown1": $unkn1, "Unknown3": $unkn3 }}')
+    --arg uom "$WUOM" \
+    '{"state": $st, "attributes": {"unique_id": $uid, "device_class": "water", "unit_of_measurement": $uom, "state_class": "total_increasing", "leak": $le, "leak_now": $ln, "BackFlow": $bf, "NoUse": $nouse, "Unknown1": $unkn1, "Unknown3": $unkn3 }}')
 
   printf '%s' "$restdata"
 }
@@ -174,10 +173,10 @@ postto() {
   local endpoint_id
   local type
   local restdata
+  local http_code
 
-  if [[ "$DEBUG" == "true" ]]; then
-    printf $'\n\nRTLAMR JSON Output\n\n'
-    printf '%s\n' "$payload"
+  if bashio::config.true 'debug'; then
+    bashio::log.debug "RTLAMR JSON Output: ${payload}"
   fi
 
   device_id="$(jq -rc '.Message.ID' <<<"$payload" | tr -s ' ' '_')"
@@ -197,17 +196,18 @@ postto() {
     restdata=$(jq -nrc --arg state "$value" '{"state": $state}')
   fi
 
-  if [[ "$DEBUG" == "true" ]]; then
-    printf $'\n\nJSON Output to HA REST API\n\n'
-    printf '%s\n' "$restdata"
+  if bashio::config.true 'debug'; then
+    bashio::log.debug "JSON Output to HA REST API: ${restdata}"
   fi
 
   # shellcheck disable=SC2154 # Provided by the Supervisor at runtime
-  curl -s -o /dev/null -w "%{http_code}" -X POST -H "Authorization: Bearer $SUPERVISOR_TOKEN" \
+  http_code=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
+    -H "Authorization: Bearer ${SUPERVISOR_TOKEN}" \
     -H "Content-Type: application/json" \
     -d "$restdata" \
-    "http://supervisor/core/api/states/sensor.$device_id"
-  printf $'\n'
+    "http://supervisor/core/api/states/sensor.${device_id}")
+
+  bashio::log.info "Posted to sensor.${device_id} - HTTP ${http_code}"
 }
 
 # Set flags if variables are set
@@ -220,6 +220,7 @@ fi
 if [[ -n "$DURATION" && "$DURATION" != "null" && "$DURATION" != "0" ]]; then
   RTLAMR_ARGS+=("-duration=${DURATION}s")
 fi
+
 # Function, runs a rtlamr listen event
 listener() {
   while IFS= read -r line
