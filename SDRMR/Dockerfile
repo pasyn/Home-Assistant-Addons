@@ -1,10 +1,3 @@
-# Docker file to create an image for a hass.io add-on that contains enough software to listen to events via RTL_SDR/RTL_433 and then publish them to the Home Assistant REST API.
-# The script resides in a volume and can be modified to meet your needs.
-# This hass.io addon is based on Chris Kacerguis' project here: https://github.com/chriskacerguis/honeywell2mqtt,
-# which is in turn based on Marco Verleun's rtl2mqtt image here: https://github.com/roflmao/rtl2mqtt
-
-# IMPORTANT: The container needs privileged access to /dev/bus/usb on the host.
-
 ARG BUILD_FROM
 ARG BUILD_ARCH
 ARG BUILD_DATE
@@ -32,9 +25,7 @@ LABEL \
     org.opencontainers.image.revision="${BUILD_REF}" \
     org.opencontainers.image.version="${BUILD_VERSION}"
 
-#
-# Install software packages needed to compile rtl-sdr and run rtlamr
-#
+# Build rtl-sdr from source (provides rtl_tcp)
 RUN apk add --no-cache --virtual build-deps alpine-sdk cmake git libusb-dev && \
     mkdir /tmp/src && \
     cd /tmp/src && \
@@ -49,16 +40,7 @@ RUN apk add --no-cache --virtual build-deps alpine-sdk cmake git libusb-dev && \
     chmod +s /usr/local/bin/rtl_* && \
     apk del build-deps && \
     rm -r /tmp/src && \
-    apk add --no-cache bash libusb jq coreutils make musl-dev go git gcc usb-modeswitch bc curl
-
-# Configure Go
-ENV GOROOT /usr/lib/go
-ENV GOPATH /go
-ENV PATH /go/bin:$PATH
-RUN mkdir -p ${GOPATH}/src ${GOPATH}/bin
-
-RUN go install github.com/bemasher/rtlamr@v0.9.3
-
+    apk add --no-cache bash libusb usb-modeswitch
 
 COPY run.sh /
 RUN chmod a+x /run.sh

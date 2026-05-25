@@ -1,0 +1,49 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to rtl_tcp",
+        "description": "Enter the host and port where rtl_tcp is running (SDRMR addon or remote host).",
+        "data": {
+          "rtltcp_host": "Host",
+          "rtltcp_port": "Port"
+        }
+      },
+      "protocol": {
+        "title": "Protocol Settings",
+        "data": {
+          "msg_type": "Message type",
+          "filter_ids": "Filter meter IDs (comma-separated, leave blank for all)"
+        }
+      },
+      "units": {
+        "title": "Units & Multipliers",
+        "data": {
+          "gas_unit": "Gas unit",
+          "electric_unit": "Electric unit",
+          "water_unit": "Water unit",
+          "gas_multiplier": "Gas multiplier",
+          "electric_multiplier": "Electric multiplier",
+          "water_multiplier": "Water multiplier"
+        }
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "SDR Meter Reader Options",
+        "data": {
+          "msg_type": "Message type",
+          "filter_ids": "Filter meter IDs (comma-separated, leave blank for all)",
+          "gas_unit": "Gas unit",
+          "electric_unit": "Electric unit",
+          "water_unit": "Water unit",
+          "gas_multiplier": "Gas multiplier",
+          "electric_multiplier": "Electric multiplier",
+          "water_multiplier": "Water multiplier"
+        }
+      }
+    }
+  }
+}

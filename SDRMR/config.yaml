@@ -1,43 +1,20 @@
 ---
-name: SDR Meter Reader
-version: 0.9.0
+name: SDR Meter Reader Bridge
+version: 1.0.0
 slug: sdrmr
-description: RF to Home Assistant REST API Bridge based on RTL_SDR/RTL_433 for RTL2832U based DVB-T USB tuners
-homeassistant_api: true
-auth_api: true
+description: Exposes the RTL-SDR dongle via rtl_tcp for the SDR Meter Reader integration
 init: false
-map:
-  - homeassistant_config:rw
-  - ssl
-url: https://github.com/pasyn/Home-Assistant-Addons/tree/main/SDRMR
 usb: true
+ports:
+  1234/tcp: 1234
+ports_description:
+  1234/tcp: "rtl_tcp IQ stream (consumed by the SDR Meter Reader integration)"
+url: https://github.com/pasyn/Home-Assistant-Addons/tree/main/SDRMR
 arch:
   - aarch64
   - amd64
 options:
-  debug: false
   rtltcpdebug: false
-  msgType: scm
-  ids: ""
-  duration: 15
-  pause_time: 30
-  gas_unit_of_measurement: ft³
-  electric_unit_of_measurement: kWh
-  water_unit_of_measurement: gal
-  gas_multiplier: 1
-  electric_multiplier: 1
-  water_multiplier: 1
 
 schema:
-  debug: bool
   rtltcpdebug: bool
-  msgType: list(scm|scm+|idm|netidm|r900|r900bcd|all)
-  ids: str?
-  duration: int
-  pause_time: int
-  gas_unit_of_measurement: list(ft³|m³)
-  electric_unit_of_measurement: list(Wh|kWh|MWh)
-  water_unit_of_measurement: list(gal|l)
-  gas_multiplier: float
-  electric_multiplier: float
-  water_multiplier: float
