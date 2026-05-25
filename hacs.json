@@ -1,0 +1,5 @@
+{
+  "name": "SDR Meter Reader",
+  "render_readme": true,
+  "homeassistant": "2023.1.0"
+}
