@@ -3,8 +3,6 @@ name: SDR Meter Reader Bridge
 version: 1.0.0
 slug: sdrmr
 description: Exposes the RTL-SDR dongle via rtl_tcp for the SDR Meter Reader integration
-homeassistant_api: false
-auth_api: false
 init: false
 usb: true
 ports:
